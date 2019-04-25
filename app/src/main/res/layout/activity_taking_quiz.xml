@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity">
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TakingQuizActivity"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:text="Check 1 2 3"
+        android:id="@+id/question1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+        />
+
+    <RadioGroup
+        android:id="@+id/radio_group_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintLeft_toLeftOf="@id/question1"
+
+        app:layout_constraintTop_toBottomOf="@id/question1"
+        >
+        <RadioButton
+            android:id="@+id/question1_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+        <RadioButton
+            android:id="@+id/question1_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <RadioButton
+            android:id="@+id/question1_c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <RadioButton
+            android:id="@+id/question1_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </RadioGroup>
+
+
+
+
+    <TextView
+        android:text="Check 1 2 3"
+        android:id="@+id/question2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/radio_group_1"
+        app:layout_constraintLeft_toLeftOf="@id/question1"
+        android:layout_marginTop="40dp"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+
+        />
+
+    <RadioGroup
+        android:id="@+id/radio_group_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintLeft_toLeftOf="@id/question2"
+        app:layout_constraintTop_toBottomOf="@id/question2"
+        >
+        <RadioButton
+            android:id="@+id/question2_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <RadioButton
+            android:id="@+id/question2_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <RadioButton
+            android:id="@+id/question2_c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <RadioButton
+            android:id="@+id/question2_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </RadioGroup>
+
+
+
+
+    <TextView
+        android:text="Check 1 2 3"
+        android:id="@+id/question3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/radio_group_2"
+        app:layout_constraintLeft_toLeftOf="@id/question1"
+        android:layout_marginTop="40dp"
+        style="@style/Base.TextAppearance.AppCompat.Large"
+
+        />
+
+    <RadioGroup
+        android:id="@+id/radio_group_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintLeft_toLeftOf="@id/question3"
+        app:layout_constraintTop_toBottomOf="@id/question3"
+        >
+        <RadioButton
+            android:id="@+id/question3_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <RadioButton
+            android:id="@+id/question3_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <RadioButton
+            android:id="@+id/question3_c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <RadioButton
+            android:id="@+id/question3_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="submit"
+        android:paddingTop="10dp"
+        android:layout_marginTop="10dp"
+        style="@style/Base.TextAppearance.AppCompat.Widget.Button"
+        app:layout_constraintTop_toBottomOf="@id/radio_group_3"
+        app:layout_constraintLeft_toLeftOf="@+id/question1"/>
+
+
+    <TextView
+        android:visibility="invisible"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please answer all questions!"
+        android:textColor="@color/colorRed"
+        app:layout_constraintLeft_toRightOf="@id/submit_button"
+        app:layout_constraintBottom_toBottomOf="@id/submit_button"
+        app:layout_constraintTop_toTopOf="@id/submit_button"/>
+
+
+
+
+</android.support.constraint.ConstraintLayout></ScrollView>

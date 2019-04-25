@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity">
+
+
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="10dp"
+    >
+
+    <TextView
+        android:id="@+id/content_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lecture:"
+
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/content1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/content_title1"
+        app:layout_constraintTop_toBottomOf="@+id/content_title1"
+
+        />
+
+
+    <TextView
+        android:id="@+id/content_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tutorial:"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        app:layout_constraintLeft_toLeftOf="@+id/content1"
+        app:layout_constraintTop_toBottomOf="@+id/content1"
+        />
+
+
+    <TextView
+        android:id="@+id/content2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/content_title2"
+        app:layout_constraintTop_toBottomOf="@+id/content_title2"
+
+        />
+
+
+    <TextView
+        android:id="@+id/content_title3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tutorial:"
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        app:layout_constraintLeft_toLeftOf="@+id/content2"
+        app:layout_constraintTop_toBottomOf="@+id/content2"
+        />
+
+
+    <TextView
+        android:id="@+id/content3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/content_title3"
+        app:layout_constraintTop_toBottomOf="@+id/content_title3"
+
+        />
+
+
+    <Button
+        android:id="@+id/quiz_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take Quiz Now!"
+        app:layout_constraintLeft_toLeftOf="@id/content3"
+        app:layout_constraintRight_toRightOf="@id/content3"
+        app:layout_constraintTop_toBottomOf="@id/content3"/>
+
+</android.support.constraint.ConstraintLayout>
+    </ScrollView>
