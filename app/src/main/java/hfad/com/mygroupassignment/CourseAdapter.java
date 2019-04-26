@@ -5,8 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,10 +17,8 @@ import java.util.Random;
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
     private ArrayList<INFS1609> mINFS1609;
     private RecyclerViewClickListener mListener;
-    DatabaseHelper mDatabaseHelper;
 
 
-    public TextView week, date;
 
     public CourseAdapter (ArrayList<INFS1609> course, RecyclerViewClickListener listener) {
         mINFS1609 = course;
@@ -31,6 +32,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public static class CourseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView week, date;
         public RatingBar ratingBar;
+        public WebView videoView;
+
         private RecyclerViewClickListener mListener;
 
         public CourseViewHolder(View v, RecyclerViewClickListener listener) {
@@ -40,6 +43,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             week = v.findViewById(R.id.week_num);
             date = v.findViewById(R.id.date_num);
             ratingBar = v.findViewById(R.id.rating_bar);
+
+
+
         }
 
         @Override

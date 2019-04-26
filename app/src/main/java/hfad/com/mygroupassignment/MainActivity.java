@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Initialize
     private static final String TAG = "MainActivity";
     public static final String EXTRA_MESSAGE = "au.edu.unsw.infs1609.beers.MESSAGE";
     private RecyclerView mRecyclerView;
@@ -24,37 +25,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mDatabaseHelper = new DatabaseHelper(this);
+        //These two methods below at the very start of the program if we want to delete previous data
         //mDatabaseHelper.drop();
         //mDatabaseHelper.initialize();
+
+        // Initialise the course and update the Class data from Database
         course = INFS1609.getINFS1609();
-
         update();
-
-        Cursor getData = mDatabaseHelper.getData();
-        ArrayList<Integer> week_data = new ArrayList<>();
-        ArrayList<Integer> result_data = new ArrayList<>();
-        while(getData.moveToNext()) {
-            week_data.add(getData.getInt(0));
-            result_data.add(getData.getInt(1));
-        }
-
-
-        for (int i = 0; i < week_data.size(); i ++) {
-            System.out.println("WEEK = " + week_data.get(i) + " RESULT = " + result_data.get(i));
-        }
-
-
-        System.out.println("COURSE");
-        for (int i = 0; i < course.size(); i ++) {
-            System.out.println("WEEK = " + course.get(i).getWeek_id() + " RESULT = " + course.get(i).getQuiz_result());
-        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
+        // Recyclerview stuff
         mRecyclerView = findViewById(R.id.rvList);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -69,14 +51,9 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new CourseAdapter(course, listener);
         mRecyclerView.setAdapter(mAdapter);
 
-
-
-
-
-
-
     }
 
+    // To launch Detail Activity
     private void launchDetailActivity(int position) {
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(EXTRA_MESSAGE, position);
@@ -86,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Method to update data from Database to the Class
     public void update() {
         Cursor getData = mDatabaseHelper.getData();
         ArrayList<Integer> week_data = new ArrayList<>();

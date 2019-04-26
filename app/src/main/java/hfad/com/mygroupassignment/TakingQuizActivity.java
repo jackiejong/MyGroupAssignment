@@ -38,6 +38,7 @@ public class TakingQuizActivity extends AppCompatActivity {
     private RadioButton Choice3D;
 
     private Button submit_button;
+    private TextView warningQuiz;
 
 
 
@@ -47,10 +48,15 @@ public class TakingQuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_taking_quiz);
 
+        // Database used to keep the results
         mDatabaseHelper = new DatabaseHelper(this);
+
+        // Getting intent message from Detail Activity
         Intent intent = getIntent();
         final int position = intent.getIntExtra(DetailActivity.MESSAGE, 0);
         mINFS1609 = INFS1609.getINFS1609().get(position);
+
+        // Initialization
         RadioGroup1 = findViewById(R.id.radio_group_1);
         Question1 = findViewById(R.id.question1);
         Choice1A = findViewById(R.id.question1_a);
@@ -87,6 +93,12 @@ public class TakingQuizActivity extends AppCompatActivity {
         Choice2C.setText(mINFS1609.getQuiz().get(1).getOptionC());
         Choice2D.setText(mINFS1609.getQuiz().get(1).getOptionD());
 
+        warningQuiz = findViewById(R.id.warning_quiz);
+
+
+
+        // Quiz size is either 2 or 3
+        // Set Visibility GONE to Question3 and All the options if there are only 2 options
         final int quizSize = mINFS1609.getQuiz().size();
 
         if (quizSize == 2) {
@@ -109,62 +121,90 @@ public class TakingQuizActivity extends AppCompatActivity {
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 int result = 0;
 
-                int selectedId1 = RadioGroup1.getCheckedRadioButtonId();
-                RadioButton btn1 = findViewById(selectedId1);
-
-                int selectedId2 = RadioGroup2.getCheckedRadioButtonId();
-                RadioButton btn2 = findViewById(selectedId2);
-
-                if (btn1.getText().equals(mINFS1609.getQuiz().get(0).getAnswer())) {
-                    result ++;
-                }
-                if (btn2.getText().equals(mINFS1609.getQuiz().get(1).getAnswer())) {
-                    result ++;
-                }
-
-                if (quizSize == 3) {
+                // Handling 2 and 3 questions
+                // Ensuring that users cannot submit answers if they have not checked a radio button
+                // Launch Congratulation Activity if they have submitted their answer on the submit button
+                if (mINFS1609.getQuiz().size() == 3) {
+                    int selectedId1 = RadioGroup1.getCheckedRadioButtonId();
+                    int selectedId2 = RadioGroup2.getCheckedRadioButtonId();
                     int selectedId3 = RadioGroup3.getCheckedRadioButtonId();
-                    RadioButton btn3 = findViewById(selectedId3);
+
+                    if (selectedId1 != -1 && selectedId2 != -1 && selectedId3 != -1) {
+                        RadioButton btn1 = findViewById(selectedId1);
+                        RadioButton btn2 = findViewById(selectedId2);
+                        RadioButton btn3 = findViewById(selectedId3);
 
 
-                    if (btn3.getText().equals(mINFS1609.getQuiz().get(2).getAnswer())) {
-                        result ++;
+                        if (btn1.getText().equals(mINFS1609.getQuiz().get(0).getAnswer())) {
+                            result++;
+                        }
+                        if (btn2.getText().equals(mINFS1609.getQuiz().get(1).getAnswer())) {
+                            result++;
+                        }
+                        if (btn3.getText().equals(mINFS1609.getQuiz().get(2).getAnswer())) {
+                            result++;
+                        }
+
+                        float final_result = (float) result / (float) quizSize * 100;
+
+                        mDatabaseHelper.updateCourse(mINFS1609.getWeek_id(), (int) final_result);
+
+                        Cursor getData = mDatabaseHelper.getData();
+                        ArrayList<Integer> week_data = new ArrayList<>();
+                        ArrayList<Integer> result_data = new ArrayList<>();
+                        while (getData.moveToNext()) {
+                            week_data.add(getData.getInt(0));
+                            result_data.add(getData.getInt(1));
+                        }
+
+                        launchCongratulationActivity(final_result);
+
+                    } else {
+                        warningQuiz.setVisibility(View.VISIBLE);
                     }
 
+                } else {
 
+                    int selectedId1 = RadioGroup1.getCheckedRadioButtonId();
+                    int selectedId2 = RadioGroup2.getCheckedRadioButtonId();
+
+
+                    if (selectedId1 != -1 && selectedId2 != -1) {
+                        RadioButton btn1 = findViewById(selectedId1);
+                        RadioButton btn2 = findViewById(selectedId2);
+
+
+                        if (btn1.getText().equals(mINFS1609.getQuiz().get(0).getAnswer())) {
+                            result++;
+                        }
+                        if (btn2.getText().equals(mINFS1609.getQuiz().get(1).getAnswer())) {
+                            result++;
+                        }
+
+
+                        float final_result = (float) result / (float) quizSize * 100;
+                        mDatabaseHelper.updateCourse(mINFS1609.getWeek_id(), (int) final_result);
+                        Cursor getData = mDatabaseHelper.getData();
+                        ArrayList<Integer> week_data = new ArrayList<>();
+                        ArrayList<Integer> result_data = new ArrayList<>();
+                        while (getData.moveToNext()) {
+                            week_data.add(getData.getInt(0));
+                            result_data.add(getData.getInt(1));
+                        }
+                        launchCongratulationActivity(final_result);
+
+                    } else {
+                        warningQuiz.setVisibility(View.VISIBLE);
+                    }
                 }
-
-                float final_result = (float)result / (float)quizSize * 100;
-
-                System.out.println("======================================" + final_result);
-                mDatabaseHelper.updateCourse(mINFS1609.getWeek_id(),(int) final_result);
-
-//                ArrayList<Integer> input = new ArrayList<>();
-//                input.add(mINFS1609.getWeek_id());
-//                input.add((int)final_result);
-//                mDatabaseHelper.insertCourse(input);
-                Cursor getData = mDatabaseHelper.getData();
-                ArrayList<Integer> week_data = new ArrayList<>();
-                ArrayList<Integer> result_data = new ArrayList<>();
-                while(getData.moveToNext()) {
-                    week_data.add(getData.getInt(0));
-                    result_data.add(getData.getInt(1));
-                }
-
-                System.out.println("==========TAKING QUIZ ACTIVITY==============");
-                for (int i = 0; i < week_data.size(); i ++) {
-                    System.out.println("WEEK = " + week_data.get(i) + " RESULT = " + result_data.get(i));
-                }
-
-                launchCongratulationActivity(final_result);
             }
         });
-
     }
 
-
+    // To launch Congratulation Activity
     public void launchCongratulationActivity (float result) {
         Intent intent = new Intent(this,Congratulation.class);
 

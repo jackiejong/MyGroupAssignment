@@ -6,6 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -21,12 +30,15 @@ public class DetailActivity extends AppCompatActivity {
     private TextView tv_content3;
     private TextView tv_date;
     private Button mQuizButton;
+    private TextView qotd;
+    private TextView qotdAuthor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        // Initialisation of all XML features
         tv_content_title1 = findViewById(R.id.content_title1);
         tv_content_title2 = findViewById(R.id.content_title2);
         tv_content_title3 = findViewById(R.id.content_title3);
@@ -34,12 +46,8 @@ public class DetailActivity extends AppCompatActivity {
         tv_content2 = findViewById(R.id.content2);
         tv_content3 = findViewById(R.id.content3);
         mQuizButton = findViewById(R.id.quiz_button);
-
-        Intent intent = getIntent();
-        final int position = intent.getIntExtra(MainActivity.EXTRA_MESSAGE, 0);
-        mINFS1609 = INFS1609.getINFS1609().get(position);
-        setTitle(mINFS1609.getWeek_title());
-
+        qotd = findViewById(R.id.qotd);
+        qotdAuthor = findViewById(R.id.qotd_author);
 
         tv_content_title1.setText(mINFS1609.getContent_title1());
         tv_content_title2.setText(mINFS1609.getContent_title2());
@@ -48,6 +56,17 @@ public class DetailActivity extends AppCompatActivity {
         tv_content2.setText(mINFS1609.getContent2());
         tv_content3.setText(mINFS1609.getContent3());
 
+
+        // Get Intent message from Main Activity
+        Intent intent = getIntent();
+        final int position = intent.getIntExtra(MainActivity.EXTRA_MESSAGE, 0);
+        mINFS1609 = INFS1609.getINFS1609().get(position);
+        setTitle(mINFS1609.getWeek_title());
+
+        // API connection
+        loadDataList();
+
+    // Click Listener on the button to launch Taking Quiz Activity
         mQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,9 +77,38 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    // To launch Taking Quiz Activity
     public void launchTakingQuizActivity(int position) {
         Intent intent = new Intent(this, TakingQuizActivity.class);
         intent.putExtra(MESSAGE, position);
         startActivity(intent);
+    }
+
+    // Establishing connection with API
+    private void loadDataList() {
+        System.out.println("HEREE START");
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://quotesondesign.com/wp-json/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        QuoteClient service = retrofit.create(QuoteClient.class);
+
+        Call<List<Quote>> call = service.getData();
+
+        call.enqueue(new Callback<List<Quote>>() {
+            @Override
+            public void onResponse(Call<List<Quote>> call, Response<List<Quote>> response) {
+                qotd.setText(response.body().get(0).getContent());
+                qotdAuthor.setText(response.body().get(0).getTitle());
+            }
+
+            @Override
+            public void onFailure(Call<List<Quote>> call, Throwable t) {
+                Toast.makeText(DetailActivity.this, "Unable to load quotes", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
     }
 }

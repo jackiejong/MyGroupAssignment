@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".DetailActivity">
 
-
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,14 +16,38 @@
     >
 
     <TextView
+        android:id="@+id/qotd"
+        android:text="Getting you Quote of The Day..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="20dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="italic"
+        />
+
+
+    <TextView
+        android:id="@+id/qotd_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/qotd"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="italic"
+        />
+
+
+    <TextView
         android:id="@+id/content_title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lecture:"
 
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/qotd_author"
+        app:layout_constraintLeft_toLeftOf="parent"
         />
 
     <TextView
@@ -81,14 +104,17 @@
         />
 
 
+
     <Button
         android:id="@+id/quiz_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Take Quiz Now!"
-        app:layout_constraintLeft_toLeftOf="@id/content3"
-        app:layout_constraintRight_toRightOf="@id/content3"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/content3"/>
+
 
 </android.support.constraint.ConstraintLayout>
     </ScrollView>
