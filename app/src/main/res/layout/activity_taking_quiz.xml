@@ -12,7 +12,8 @@
     tools:context=".TakingQuizActivity"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingTop="10dp">
+    android:paddingTop="10dp"
+    android:paddingBottom="20dp">
 
     <TextView
         android:text="Check 1 2 3"

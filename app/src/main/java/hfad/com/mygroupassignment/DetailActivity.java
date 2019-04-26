@@ -30,6 +30,8 @@ public class DetailActivity extends AppCompatActivity {
     private TextView tv_content3;
     private TextView tv_date;
     private Button mQuizButton;
+
+
     private TextView qotd;
     private TextView qotdAuthor;
 
@@ -38,7 +40,8 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        // Initialisation of all XML features
+
+        // Initialization
         tv_content_title1 = findViewById(R.id.content_title1);
         tv_content_title2 = findViewById(R.id.content_title2);
         tv_content_title3 = findViewById(R.id.content_title3);
@@ -49,6 +52,14 @@ public class DetailActivity extends AppCompatActivity {
         qotd = findViewById(R.id.qotd);
         qotdAuthor = findViewById(R.id.qotd_author);
 
+
+        // Getting Intent Message from Detail Activity
+        Intent intent = getIntent();
+        final int position = intent.getIntExtra(MainActivity.EXTRA_MESSAGE, 0);
+        mINFS1609 = INFS1609.getINFS1609().get(position);
+        setTitle(mINFS1609.getWeek_title());
+
+
         tv_content_title1.setText(mINFS1609.getContent_title1());
         tv_content_title2.setText(mINFS1609.getContent_title2());
         tv_content_title3.setText(mINFS1609.getContent_title3());
@@ -57,16 +68,7 @@ public class DetailActivity extends AppCompatActivity {
         tv_content3.setText(mINFS1609.getContent3());
 
 
-        // Get Intent message from Main Activity
-        Intent intent = getIntent();
-        final int position = intent.getIntExtra(MainActivity.EXTRA_MESSAGE, 0);
-        mINFS1609 = INFS1609.getINFS1609().get(position);
-        setTitle(mINFS1609.getWeek_title());
-
-        // API connection
         loadDataList();
-
-    // Click Listener on the button to launch Taking Quiz Activity
         mQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +79,7 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+
     // To launch Taking Quiz Activity
     public void launchTakingQuizActivity(int position) {
         Intent intent = new Intent(this, TakingQuizActivity.class);
@@ -84,9 +87,10 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Establishing connection with API
+
+
+    // API Connection
     private void loadDataList() {
-        System.out.println("HEREE START");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://quotesondesign.com/wp-json/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -94,6 +98,7 @@ public class DetailActivity extends AppCompatActivity {
         QuoteClient service = retrofit.create(QuoteClient.class);
 
         Call<List<Quote>> call = service.getData();
+
 
         call.enqueue(new Callback<List<Quote>>() {
             @Override

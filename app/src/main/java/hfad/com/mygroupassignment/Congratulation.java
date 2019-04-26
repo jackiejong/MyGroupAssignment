@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class Congratulation extends AppCompatActivity {
@@ -12,7 +13,7 @@ public class Congratulation extends AppCompatActivity {
     private TextView result;
     private TextView congrats;
     private Button back;
-
+    private RatingBar ratingBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +21,7 @@ public class Congratulation extends AppCompatActivity {
 
         result = findViewById(R.id.result);
         back = findViewById(R.id.back_button);
+        ratingBar = findViewById(R.id.rating_bar_congrats);
         congrats = findViewById(R.id.congratulation_text);
 
         Intent intent = getIntent();
@@ -30,6 +32,7 @@ public class Congratulation extends AppCompatActivity {
             congrats.setText("Try Again!");
         }
 
+        ratingBar.setRating(final_result * 3 / 100);
         result.setText(String.valueOf((int)final_result) + "%");
 
         back.setOnClickListener(new View.OnClickListener() {
