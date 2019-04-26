@@ -1,6 +1,7 @@
 package hfad.com.mygroupassignment;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +10,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class TakingQuizActivity extends AppCompatActivity {
 
+    DatabaseHelper mDatabaseHelper;
     private INFS1609 mINFS1609;
     private TextView Question1;
     private RadioGroup RadioGroup1;
@@ -43,8 +47,7 @@ public class TakingQuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_taking_quiz);
 
-
-
+        mDatabaseHelper = new DatabaseHelper(this);
         Intent intent = getIntent();
         final int position = intent.getIntExtra(DetailActivity.MESSAGE, 0);
         mINFS1609 = INFS1609.getINFS1609().get(position);
@@ -133,22 +136,41 @@ public class TakingQuizActivity extends AppCompatActivity {
 
                 }
 
-                float final_result = (float)result / (float)quizSize;
+                float final_result = (float)result / (float)quizSize * 100;
 
                 System.out.println("======================================" + final_result);
+                mDatabaseHelper.updateCourse(mINFS1609.getWeek_id(),(int) final_result);
 
+//                ArrayList<Integer> input = new ArrayList<>();
+//                input.add(mINFS1609.getWeek_id());
+//                input.add((int)final_result);
+//                mDatabaseHelper.insertCourse(input);
+                Cursor getData = mDatabaseHelper.getData();
+                ArrayList<Integer> week_data = new ArrayList<>();
+                ArrayList<Integer> result_data = new ArrayList<>();
+                while(getData.moveToNext()) {
+                    week_data.add(getData.getInt(0));
+                    result_data.add(getData.getInt(1));
+                }
 
+                System.out.println("==========TAKING QUIZ ACTIVITY==============");
+                for (int i = 0; i < week_data.size(); i ++) {
+                    System.out.println("WEEK = " + week_data.get(i) + " RESULT = " + result_data.get(i));
+                }
 
-
-                //launchTakingQuizActivity(position);
+                launchCongratulationActivity(final_result);
             }
         });
 
     }
 
 
-    public void launchSomePage () {
+    public void launchCongratulationActivity (float result) {
+        Intent intent = new Intent(this,Congratulation.class);
 
+        intent.putExtra("hello", result);
+
+        startActivity(intent);
     }
 
 

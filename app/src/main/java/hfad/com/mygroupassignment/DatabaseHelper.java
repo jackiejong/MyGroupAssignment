@@ -11,6 +11,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -52,11 +54,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertCourse (ArrayList<String> input) {
+    public boolean insertCourse (ArrayList<Integer> input) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL1, Integer.parseInt(input.get(0)));
-        contentValues.put(COL9, Integer.parseInt(input.get(1)));
+        contentValues.put(COL1, input.get(0));
+        contentValues.put(COL9, input.get(1));
 
         Log.d(TAG, "addData: Adding data to " + COURSE_TABLE_NAME);
         long result = db.insert(COURSE_TABLE_NAME, null, contentValues);
@@ -68,7 +70,79 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
+
+
+    public void initialize() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<Integer> a1 = new ArrayList<>();
+        ArrayList<Integer> a2 = new ArrayList<>();
+        ArrayList<Integer> a3 = new ArrayList<>();
+        ArrayList<Integer> a4 = new ArrayList<>();
+        ArrayList<Integer> a5 = new ArrayList<>();
+        ArrayList<Integer> a6 = new ArrayList<>();
+        ArrayList<Integer> a7 = new ArrayList<>();
+        ArrayList<Integer> a8 = new ArrayList<>();
+        ArrayList<Integer> a9 = new ArrayList<>();
+        ArrayList<Integer> a10 = new ArrayList<>();
+
+        a1.add(1);
+        a2.add(2);
+        a3.add(3);
+        a4.add(4);
+        a5.add(5);
+        a6.add(6);
+        a7.add(7);
+        a8.add(8);
+        a9.add(9);
+        a10.add(10);
+
+        a1.add(0);
+        a2.add(0);
+        a3.add(0);
+        a4.add(0);
+        a5.add(0);
+        a6.add(0);
+        a7.add(0);
+        a8.add(0);
+        a9.add(0);
+        a10.add(0);
+
+        insertCourse(a1);
+        insertCourse(a2);
+        insertCourse(a3);
+        insertCourse(a4);
+        insertCourse(a5);
+        insertCourse(a6);
+        insertCourse(a7);
+        insertCourse(a8);
+        insertCourse(a9);
+        insertCourse(a10);
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+    public void drop() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + COURSE_TABLE_NAME);
+        //db.execSQL("DROP TABLE IF EXISTS " + QUIZ_TABLE_NAME);
+        onCreate(db);
+    }
+
+
 /*
+
+
+ */
 
     public boolean insertQuiz (ArrayList<String> input) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -88,7 +162,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-*/
+    public boolean updateCourse (int week, int marks) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL1, week);
+        contentValues.put(COL9,marks);
+        db.update(COURSE_TABLE_NAME, contentValues, "WEEK_ID = ?", new String[] {String.valueOf(week)} );
+        return true;
+    }
+
     public Cursor getData() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + COURSE_TABLE_NAME;
