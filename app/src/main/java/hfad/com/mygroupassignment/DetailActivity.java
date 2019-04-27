@@ -100,6 +100,7 @@ public class DetailActivity extends AppCompatActivity {
         Call<List<Quote>> call = service.getData();
 
 
+        // Async
         call.enqueue(new Callback<List<Quote>>() {
             @Override
             public void onResponse(Call<List<Quote>> call, Response<List<Quote>> response) {
